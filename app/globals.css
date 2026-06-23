@@ -1,0 +1,457 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Light Mode Tokens ── */
+    --background: 220 33% 97%;
+    --foreground: 222 47% 8%;
+
+    --card: 220 25% 99%;
+    --card-foreground: 222 47% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 8%;
+
+    --primary: 222 47% 8%;
+    --primary-foreground: 0 0% 99%;
+
+    --secondary: 214 20% 93%;
+    --secondary-foreground: 222 47% 8%;
+
+    --muted: 214 20% 95%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 214 20% 93%;
+    --accent-foreground: 222 47% 8%;
+
+    --border: 214 20% 89%;
+    --input: 214 20% 89%;
+    --ring: 221 83% 53%;
+
+    /* Brand for light */
+    --brand-gradient-from: #1d4ed8;
+    --brand-gradient-to: #6d28d9;
+    --hero-bg: #f8faff;
+    --grid-color: rgba(37, 99, 235, 0.06);
+    --glow-opacity: 0.08;
+  }
+
+  .dark {
+    /* ── Dark Mode Tokens ── */
+    --background: 222 47% 4%;
+    --foreground: 213 31% 95%;
+
+    --card: 222 47% 6%;
+    --card-foreground: 213 31% 95%;
+
+    --popover: 222 47% 5%;
+    --popover-foreground: 213 31% 95%;
+
+    --primary: 213 31% 95%;
+    --primary-foreground: 222 47% 4%;
+
+    --secondary: 217 33% 13%;
+    --secondary-foreground: 213 31% 95%;
+
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 20% 55%;
+
+    --accent: 217 33% 14%;
+    --accent-foreground: 213 31% 95%;
+
+    --border: 217 33% 14%;
+    --input: 217 33% 14%;
+    --ring: 221 83% 63%;
+
+    /* Brand for dark */
+    --brand-gradient-from: #3b82f6;
+    --brand-gradient-to: #8b5cf6;
+    --hero-bg: #030712;
+    --grid-color: rgba(37, 99, 235, 0.05);
+    --glow-opacity: 0.15;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth theme transitions */
+  body,
+  body * {
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.1s ease;
+  }
+
+  /* Override transition for animations so they don't break */
+  [data-framer-motion],
+  .framer-motion-no-transition {
+    transition: none !important;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-muted-foreground/40; }
+
+  ::selection {
+    @apply bg-blue-500/15 text-blue-700 dark:bg-blue-400/20 dark:text-blue-300;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+
+  /* ────────────────────────────────────────────
+     HERO — adapts to light / dark
+  ──────────────────────────────────────────── */
+  .hero-section {
+    background-color: var(--hero-bg);
+  }
+
+  /* Light mode hero has a soft blue-tinted white */
+  :root .hero-section {
+    background: linear-gradient(135deg, #e8eeff 0%, #eef2fa 50%, #ece8ff 100%);
+  }
+
+  /* Dark mode hero is near-black */
+  .dark .hero-section {
+    background: #030712;
+  }
+
+  /* Hero text colour */
+  .hero-heading {
+    @apply text-foreground;
+  }
+
+  :root .hero-heading {
+    color: #0f172a;
+  }
+
+  .dark .hero-heading {
+    color: #f1f5f9;
+  }
+
+  .hero-subtext {
+    @apply text-muted-foreground;
+  }
+
+  :root .hero-subtext {
+    color: #475569;
+  }
+
+  .dark .hero-subtext {
+    color: #94a3b8;
+  }
+
+  /* Ghost button in hero context */
+  .hero-ghost-btn {
+    @apply inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base
+           transition-all duration-200;
+  }
+
+  :root .hero-ghost-btn {
+    @apply border border-slate-300 text-slate-700 hover:bg-slate-100;
+  }
+
+  .dark .hero-ghost-btn {
+    @apply border border-white/15 text-white hover:bg-white/5;
+  }
+
+  /* Trust row dots in hero */
+  .hero-trust-dot {
+    @apply w-1.5 h-1.5 rounded-full;
+  }
+
+  :root .hero-trust-dot {
+    @apply bg-emerald-500;
+  }
+
+  .dark .hero-trust-dot {
+    @apply bg-emerald-400;
+  }
+
+  .hero-trust-text {
+    @apply text-sm;
+  }
+
+  :root .hero-trust-text {
+    color: #64748b;
+  }
+
+  .dark .hero-trust-text {
+    color: #94a3b8;
+  }
+
+  /* ────────────────────────────────────────────
+     GRID BACKGROUND
+  ──────────────────────────────────────────── */
+  .grid-bg {
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* ────────────────────────────────────────────
+     GRADIENT TEXT
+  ──────────────────────────────────────────── */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      var(--brand-gradient-from),
+      var(--brand-gradient-to)
+    );
+  }
+
+  /* ────────────────────────────────────────────
+     GLASS CARDS
+  ──────────────────────────────────────────── */
+  .glass-card {
+    @apply backdrop-blur-xl rounded-2xl border;
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  :root .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  /* ────────────────────────────────────────────
+     BADGES
+  ──────────────────────────────────────────── */
+  .badge-brand {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border;
+  }
+
+  :root .badge-brand {
+    background: rgba(37, 99, 235, 0.08);
+    color: #1d4ed8;
+    border-color: rgba(37, 99, 235, 0.2);
+  }
+
+  .dark .badge-brand {
+    background: rgba(96, 165, 250, 0.1);
+    color: #93c5fd;
+    border-color: rgba(96, 165, 250, 0.2);
+  }
+
+  /* ────────────────────────────────────────────
+     BUTTONS
+  ──────────────────────────────────────────── */
+  .btn-brand {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
+           font-semibold text-sm text-white shadow-lg
+           hover:shadow-xl hover:scale-105 active:scale-100
+           transition-all duration-200 focus-visible:ring-2 focus-visible:ring-blue-500;
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+  }
+
+  .btn-brand:hover {
+    box-shadow: 0 8px 30px rgba(37, 99, 235, 0.45);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
+           font-semibold text-sm border transition-all duration-200;
+  }
+
+  :root .btn-ghost {
+    @apply border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .dark .btn-ghost {
+    @apply border-white/10 bg-white/5 text-white hover:bg-white/10 hover:border-white/20;
+  }
+
+  /* ────────────────────────────────────────────
+     TAGS
+  ──────────────────────────────────────────── */
+  .tag {
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium;
+  }
+
+  :root .tag {
+    @apply bg-slate-100 text-slate-600;
+  }
+
+  .dark .tag {
+    @apply bg-white/5 text-slate-400;
+  }
+
+  /* ────────────────────────────────────────────
+     STAT NUMBERS
+  ──────────────────────────────────────────── */
+  .stat-number {
+    @apply font-display text-4xl lg:text-5xl font-black gradient-text;
+  }
+
+  /* ────────────────────────────────────────────
+     SECTION UTILITIES
+  ──────────────────────────────────────────── */
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-py {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  /* ────────────────────────────────────────────
+     NAVBAR
+  ──────────────────────────────────────────── */
+  .navbar-scrolled {
+    @apply border-b;
+  }
+
+  :root .navbar-scrolled {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    border-color: rgba(0, 0, 0, 0.07);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .navbar-scrolled {
+    background: rgba(7, 11, 22, 0.92);
+    backdrop-filter: blur(20px);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  /* ────────────────────────────────────────────
+     CARD HOVER LIFT
+  ──────────────────────────────────────────── */
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+
+  :root .card-hover:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    border-color: rgba(37, 99, 235, 0.25);
+  }
+
+  .dark .card-hover:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+    border-color: rgba(96, 165, 250, 0.2);
+  }
+
+  /* ────────────────────────────────────────────
+     SECTION ALTERNATING BG
+  ──────────────────────────────────────────── */
+  .section-alt {
+    @apply bg-muted/30;
+  }
+
+  :root .section-alt {
+    background: #eef2fa;
+  }
+
+  .dark .section-alt {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* ────────────────────────────────────────────
+     GRADIENT BORDERS
+  ──────────────────────────────────────────── */
+  .gradient-border {
+    position: relative;
+    border-radius: 1rem;
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed, #2563eb);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* ────────────────────────────────────────────
+     SCROLL INDICATOR (Hero)
+  ──────────────────────────────────────────── */
+  .scroll-indicator-line {
+    @apply w-px h-10;
+  }
+
+  :root .scroll-indicator-line {
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), transparent);
+  }
+
+  .dark .scroll-indicator-line {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+  }
+
+  .scroll-indicator-text {
+    @apply text-xs tracking-widest uppercase;
+  }
+
+  :root .scroll-indicator-text {
+    color: rgba(15, 23, 42, 0.35);
+  }
+
+  .dark .scroll-indicator-text {
+    color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* ────────────────────────────────────────────
+   ANIMATION UTILITIES
+──────────────────────────────────────────── */
+@layer utilities {
+  .animation-delay-100  { animation-delay: 100ms; }
+  .animation-delay-200  { animation-delay: 200ms; }
+  .animation-delay-300  { animation-delay: 300ms; }
+  .animation-delay-400  { animation-delay: 400ms; }
+  .animation-delay-500  { animation-delay: 500ms; }
+  .animation-delay-700  { animation-delay: 700ms; }
+  .animation-delay-1000 { animation-delay: 1000ms; }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+}
+
+/* ────────────────────────────────────────────
+   REDUCE MOTION
+──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
