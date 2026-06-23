@@ -1,28 +1,35 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import {
-  Menu, X, Sun, Moon, Monitor, Phone, ChevronDown,
-  GraduationCap, Code2, Award, Globe, Briefcase,
-  Rocket, School, Users, MapPin,
+  Menu, X, Sun, Moon, Monitor, Phone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, SITE_CONFIG } from "@/data/site";
 import OMLLogo from "@/components/sections/OMLLogo";
 
-const iconMap: Record<string, React.ElementType> = {
-  GraduationCap, Code2, Award, Globe, Briefcase, Rocket, School, Users, MapPin,
-};
-
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => setMounted(true), []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest("[data-theme-toggle]")) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
   if (!mounted) return <div className="w-9 h-9" />;
 
   const themes = [
@@ -35,30 +42,45 @@ function ThemeToggle() {
   const CurrentIcon = current.Icon;
 
   return (
-    <div className="relative group">
+    <div className="relative" data-theme-toggle>
       <button
         aria-label="Toggle theme"
+        onClick={() => setOpen((prev) => !prev)}
         className="w-9 h-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
       >
         <CurrentIcon size={16} />
       </button>
-      <div className="absolute right-0 top-full mt-2 p-1 rounded-xl bg-popover border border-border shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
-        {themes.map(({ value, Icon }) => (
-          <button
-            key={value}
-            onClick={() => setTheme(value)}
-            className={cn(
-              "flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition-colors",
-              theme === value
-                ? "bg-brand-500/10 text-brand-600 dark:text-brand-400"
-                : "hover:bg-accent text-muted-foreground hover:text-foreground"
-            )}
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: -4 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -4 }}
+            transition={{ duration: 0.12 }}
+            className="absolute right-0 top-full mt-2 p-1 rounded-xl bg-popover border border-border shadow-lg z-50"
           >
-            <Icon size={14} />
-            <span className="capitalize">{value}</span>
-          </button>
-        ))}
-      </div>
+            {themes.map(({ value, Icon }) => (
+              <button
+                key={value}
+                onClick={() => {
+                  setTheme(value);
+                  setOpen(false);
+                }}
+                className={cn(
+                  "flex items-center gap-2 w-full px-3 py-2 text-sm rounded-lg transition-colors",
+                  theme === value
+                    ? "bg-brand-500/10 text-brand-600 dark:text-brand-400"
+                    : "hover:bg-accent text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <Icon size={14} />
+                <span className="capitalize">{value}</span>
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -66,9 +88,7 @@ function ThemeToggle() {
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -78,17 +98,7 @@ export function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
-    setActiveDropdown(null);
   }, [pathname]);
-
-  const handleMouseEnter = (label: string) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setActiveDropdown(label);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setActiveDropdown(null), 150);
-  };
 
   return (
     <>
@@ -115,81 +125,18 @@ export function Navbar() {
           {/* Desktop Nav */}
           <ul className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map((link) => (
-              <li
-                key={link.label}
-                className="relative"
-                onMouseEnter={() => link.children && handleMouseEnter(link.label)}
-                onMouseLeave={handleMouseLeave}
-              >
-                {link.children ? (
-                  <button
-                    className={cn(
-                      "flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                      pathname.startsWith(link.href)
-                        ? "text-brand-600 dark:text-brand-400"
-                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                    )}
-                  >
-                    {link.label}
-                    <ChevronDown
-                      size={14}
-                      className={cn(
-                        "transition-transform duration-200",
-                        activeDropdown === link.label ? "rotate-180" : ""
-                      )}
-                    />
-                  </button>
-                ) : (
-                  <Link
-                    href={link.href}
-                    className={cn(
-                      "flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                      pathname === link.href
-                        ? "text-brand-600 dark:text-brand-400 bg-brand-500/10"
-                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                )}
-
-                {/* Mega dropdown */}
-                <AnimatePresence>
-                  {link.children && activeDropdown === link.label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-popover border border-border rounded-2xl shadow-xl p-2 z-50"
-                      onMouseEnter={() => handleMouseEnter(link.label)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      {link.children.map((child) => {
-                        const Icon = iconMap[child.icon] ?? GraduationCap;
-                        return (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-accent transition-colors group/item"
-                          >
-                            <div className="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center shrink-0 group-hover/item:bg-brand-500/20 transition-colors mt-0.5">
-                              <Icon size={15} className="text-brand-600 dark:text-brand-400" />
-                            </div>
-                            <div>
-                              <p className="text-sm font-medium text-foreground leading-tight">
-                                {child.label}
-                              </p>
-                              <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-                                {child.description}
-                              </p>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </motion.div>
+              <li key={link.label} className="relative">
+                <Link
+                  href={link.href}
+                  className={cn(
+                    "flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                    pathname === link.href
+                      ? "text-brand-600 dark:text-brand-400 bg-brand-500/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
                   )}
-                </AnimatePresence>
+                >
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -267,19 +214,6 @@ export function Navbar() {
                     >
                       {link.label}
                     </Link>
-                    {link.children && (
-                      <div className="ml-4 mt-1 space-y-1">
-                        {link.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="flex items-center px-3 py-2 rounded-lg text-xs text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
