@@ -4,10 +4,9 @@ import { TrustSection } from "@/components/sections/TrustSection";
 import { ServicesOverview } from "@/components/sections/ServicesOverview";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { FeaturedPrograms } from "@/components/sections/FeaturedPrograms";
-import { Testimonials } from "@/components/sections/Testimonials";
 import { PartnerLogos } from "@/components/sections/PartnerLogos";
 import { FAQSection } from "@/components/sections/FAQSection";
-import { CTASection } from "@/components/sections/CTASection";
+import { CTASection } from "@/components/sections/CTASection"; 
 import { SITE_CONFIG } from "@/data/site";
 
 export const metadata: Metadata = {
