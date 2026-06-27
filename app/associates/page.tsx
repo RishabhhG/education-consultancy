@@ -58,7 +58,8 @@ const CATEGORIES = [
       { "name": "Institute of Technology & Science, Mohan Nagar", "size": "md" },
       { "name": "ITS Engineering College, Greater Noida", "size": "md" },
       { "name": "IAMR Group of Institutions, Ghaziabad", "size": "md" },
-      { "name": "Vidyamandir Group of Schools, Ghaziabad", "size": "md" }
+      { "name": "Vidyamandir Group of Schools, Ghaziabad", "size": "md" },
+      {"name": "JP institute of Engineering and technology, Meerut", "size": "md" }
     ]
   },
   {
@@ -91,14 +92,15 @@ const CATEGORIES = [
     "color": "from-rose-500 to-pink-600",
     "colorVar": "244 63 94",
     "partners": [
-      { "name": "Bharat Vikas Parishad", "size": "sm" },
-      { "name": "Jan Shiksha Evam Sanskaar Samiti", "size": "sm" },
-      { "name": "Pragati Care Foundation", "size": "sm" },
-      { "name": "Prakahar Foundation", "size": "sm" },
-      { "name": "Vigor Council", "size": "sm" },
-      { "name": "Shri Ram Sewa Trust", "size": "sm" },
-      { "name": "Indian Industries Association", "size": "sm" },
-      { "name": "Uttar Pradesh Udyog Vyapar Mandal", "size": "sm" }
+      { "name": "Bharat Vikas Parishad", "size": "md" },
+      { "name": "Jan Shiksha Evam Sanskaar Samiti", "size": "md" },
+      { "name": "Pragati Care Foundation", "size": "md" },
+      { "name": "Prakahar Foundation", "size": "md" },
+      { "name": "Vigor Council", "size": "md" },
+      { "name": "Shri Ram Sewa Trust", "size": "md" },
+      { "name": "Indian Industries Association", "size": "md" },
+      { "name": "Uttar Pradesh Udyog Vyapar Mandal", "size": "md" },
+      { "name": "Gurukulam, Barsana", "size": "md" },
     ]
   },
 ];

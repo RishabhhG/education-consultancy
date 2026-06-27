@@ -15,11 +15,11 @@ export const SITE_CONFIG = {
   tagline: "Empowering Students Across NCR Since 2019",
   description:
     "A dynamic education consultancy offering admission counselling, high-end technical training, international certifications, foreign languages, and guaranteed placement assistance across Delhi NCR.",
-  url: "https://www.openmindlearning.in",
+  url: "https://www.openmindlearning.co.in",
   phone: "+91 7838500561",
   whatsapp: "917838500561",
-  email: "info@openmindlearning.in",
-  address: "237, First Floor, Gaur City Centre, Noida Extension West, Gautam Budh Nagar, UP 201301",
+  email: "info@openmindlearning.co.in",
+  address: "237, First Floor, Gaur City Centre, Noida Extension, Gautam Budh Nagar, UP 201301",
   foundedYear: 2019,
   socialLinks: {
     instagram: "https://www.instagram.com/openmindlearning.in?igsh=bXFuMmt5bHBqdjU4",
@@ -186,7 +186,7 @@ export const FAQS = [
   {
     question: "Where are your offices located?",
     answer:
-      "Our headquarters is at 237, First Floor, Gaur City Centre, Noida Extension West, Gautam Budh Nagar, UP 201301. We also have branches in Delhi, Noida, and Meerut — strategically placed to serve students across the NCR region.",
+      "Our headquarters is at 237, First Floor, Gaur City Centre, Noida Extension, Gautam Budh Nagar, UP 201301. We also have branches in Delhi, Noida, and Meerut — strategically placed to serve students across the NCR region.",
   },
   {
     question: "Can students get admission without paying tuition fees?",
@@ -323,7 +323,7 @@ export const PROJECTS = [
     stats: [
       { value: "35+", label: "Programs Available" },
       { value: "FREE", label: "Training Cost" },
-      { value: "Cl. 5–12", label: "Target Students" },
+      { value: "Class 5 onwards", label: "Target Students" },
       { value: "Live", label: "Online Mode" },
     ],
     highlights: [
@@ -369,17 +369,17 @@ export const PROJECTS = [
     Icon: School,
     stats: [
       { value: "30", label: "Days Setup Time" },
-      { value: "5 Yrs", label: "Minimum Partnership" },
+      { value: "5 Years", label: "Minimum Partnership" },
       { value: "10", label: "Systems Per Lab" },
       { value: "₹0", label: "School Expense" },
     ],
     highlights: [
       "Complete lab setup within 30 days of agreement",
       "10 systems + projector + printer provided by OML",
-      "Minimum 5-year partnership program",
+      "Minimum 5-years partnership program",
       "Highly qualified full-time faculty at school premises",
       "All operational expenses borne by OML — faculty, material, conveyance",
-      "OML assists school in promoting the scheme",
+      "0 cost to the school — we handle setup, faculty, material and operations",
     ],
     programs: [
       { Icon: Brain, label: "Python with AI" },
@@ -413,10 +413,10 @@ export const PROJECTS = [
     },
     Icon: Users,
     stats: [
-      { value: "Cl. 6–12", label: "Target Students" },
+      { value: "Class 6 onwards", label: "Target Students" },
       { value: "On-Site", label: "Delivery Mode" },
       { value: "Latest", label: "Tech Curriculum" },
-      { value: "Cert.", label: "On Completion" },
+      { value: "Certification", label: "On Completion" },
     ],
     highlights: [
       "Curriculum on latest technologies delivered on school campus",
